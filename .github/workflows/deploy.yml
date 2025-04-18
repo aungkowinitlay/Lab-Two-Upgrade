@@ -18,7 +18,10 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Stop existing containers
-        run: docker-compose down || true
+        run: |
+          docker-compose down || true
+          docker rm frontend-container || true
+          docker rm backend-container || true
 
       - name: Build and start containers
         run: docker-compose up -d --build
